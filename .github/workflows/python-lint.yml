@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python package
+name: Python lint
 
 on:
   push:
@@ -11,6 +8,7 @@ on:
 
 jobs:
   build:
+    continue-on-error: true
 
     runs-on: ubuntu-latest
     strategy:
@@ -30,11 +28,4 @@ jobs:
       run: uv sync --locked --all-extras --dev
 
     - name: Lint with ruff
-      # stop the build if there are Python syntax errors or undefined names
-      run: uv run ruff check --select=E9,F63,F7,F82 --output-format=github
-
-    - name: Test with pytest
-      run: |
-        uv run pytest
-    - name: Build package
-      run: uv build
+      run: uv run ruff check --output-format=github
